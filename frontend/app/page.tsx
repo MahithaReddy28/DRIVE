@@ -29,7 +29,7 @@ import { BriefingModal } from '@/components/ai/BriefingModal';
 
 import { api } from '@/lib/api';
 import { calculateClientRouteComparison } from '@/lib/graphEngine';
-import { DEFAULT_FACILITIES } from '@/lib/data';
+import { DEFAULT_FACILITIES, DEFAULT_INCIDENTS } from '@/lib/data';
 import {
   Facility, Incident, Mission, GraphStats, AIBriefing,
   RoadSegment, RouteResponse, RouteComparison as RouteComparisonType
@@ -42,9 +42,9 @@ export default function Home() {
   const [lastUpdate, setLastUpdate] = useState<string>('2.4 sec ago');
 
   // Data states
-  const [facilities, setFacilities] = useState<Facility[]>([]);
+  const [facilities, setFacilities] = useState<Facility[]>(DEFAULT_FACILITIES);
   const [roads, setRoads] = useState<RoadSegment[]>([]);
-  const [incidents, setIncidents] = useState<Incident[]>([]);
+  const [incidents, setIncidents] = useState<Incident[]>(DEFAULT_INCIDENTS);
   const [missions, setMissions] = useState<Mission[]>([]);
   const [stats, setStats] = useState<GraphStats | null>(null);
   const [briefing, setBriefing] = useState<AIBriefing | null>(null);
@@ -86,7 +86,16 @@ export default function Home() {
       }
     } catch (err) {
       console.warn('Backend loading error - fallback to local simulation state');
+      setFacilities(prev => prev.length > 0 ? prev : DEFAULT_FACILITIES);
+      setIncidents(prev => prev.length > 0 ? prev : DEFAULT_INCIDENTS);
     }
+  };
+
+  const handleIncidentSubmitted = (newIncident?: Incident) => {
+    if (newIncident) {
+      setIncidents(prev => [newIncident, ...prev.filter(i => i.id !== newIncident.id)]);
+    }
+    loadData();
   };
 
   useEffect(() => {
@@ -275,20 +284,36 @@ export default function Home() {
           )}
 
           {activeTab === 'routing' && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <RoutePlanner
-                facilities={facilities}
-                selectedOrigin={originId}
-                setSelectedOrigin={setOriginId}
-                selectedDestination={destId}
-                setSelectedDestination={setDestId}
-                routingMode={routingMode}
-                setRoutingMode={setRoutingMode}
-                onCalculateRoute={() => handleCalculateRoute()}
-                isCalculating={isCalculating}
-                recomputeMs={activeRoute?.recompute_ms}
-              />
-              <RouteComparison comparison={routeComparison} />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 h-[580px]">
+              {/* Left 2 Cols: Interactive Map Canvas */}
+              <div className="lg:col-span-2 h-full">
+                <MapView
+                  roads={roads}
+                  facilities={facilities}
+                  incidents={incidents}
+                  activeRoute={activeRoute}
+                  normalRoute={routeComparison?.normal_route}
+                  floodLevel={floodLevel}
+                  onSelectFacility={(fac) => setDestId(fac.id)}
+                />
+              </div>
+
+              {/* Right Col: Route Planner Controls & Comparison */}
+              <div className="h-full overflow-y-auto space-y-4 pr-1">
+                <RoutePlanner
+                  facilities={facilities}
+                  selectedOrigin={originId}
+                  setSelectedOrigin={setOriginId}
+                  selectedDestination={destId}
+                  setSelectedDestination={setDestId}
+                  routingMode={routingMode}
+                  setRoutingMode={setRoutingMode}
+                  onCalculateRoute={() => handleCalculateRoute()}
+                  isCalculating={isCalculating}
+                  recomputeMs={activeRoute?.recompute_ms}
+                />
+                <RouteComparison comparison={routeComparison} />
+              </div>
             </div>
           )}
 
@@ -345,7 +370,7 @@ export default function Home() {
       <IncidentModal
         isOpen={isIncidentModalOpen}
         onClose={() => setIsIncidentModalOpen(false)}
-        onIncidentSubmitted={loadData}
+        onIncidentSubmitted={handleIncidentSubmitted}
       />
 
       <BriefingModal

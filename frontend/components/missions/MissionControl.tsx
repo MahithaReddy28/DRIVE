@@ -5,6 +5,8 @@ import { Mission, Facility } from '@/lib/types';
 import { Truck, Plus, ShieldCheck, Clock, Navigation, AlertCircle } from 'lucide-react';
 import { api } from '@/lib/api';
 
+import { DEFAULT_FACILITIES } from '@/lib/data';
+
 interface MissionControlProps {
   missions: Mission[];
   facilities: Facility[];
@@ -12,11 +14,12 @@ interface MissionControlProps {
 }
 
 export const MissionControl: React.FC<MissionControlProps> = ({ missions, facilities, onMissionCreated }) => {
+  const facList = facilities && facilities.length > 0 ? facilities : DEFAULT_FACILITIES;
   const [showCreate, setShowCreate] = useState(false);
   const [missionType, setMissionType] = useState('Medicine');
   const [priority, setPriority] = useState('CRITICAL');
-  const [originId, setOriginId] = useState(facilities[0]?.id || 'fac_01');
-  const [destId, setDestId] = useState(facilities[1]?.id || 'fac_02');
+  const [originId, setOriginId] = useState(facList[0]?.id || 'fac_01');
+  const [destId, setDestId] = useState(facList[1]?.id || 'fac_02');
   const [vehicle, setVehicle] = useState('Amphibious Truck #07');
   const [payload, setPayload] = useState('Critical Anti-Venom & Blood Packs');
 
@@ -67,11 +70,11 @@ export const MissionControl: React.FC<MissionControlProps> = ({ missions, facili
                 onChange={(e) => setMissionType(e.target.value)}
                 className="w-full bg-command-panel border border-command-border rounded-lg p-2 text-white"
               >
-                <option value="Medicine">Medicine & Blood Packs</option>
-                <option value="Food">Dry Ration Kits</option>
-                <option value="Water">Drinking Water Containers</option>
-                <option value="Rescue">Amphibious Rescue</option>
-                <option value="Evacuation">High-Water Evacuation</option>
+                <option value="Medicine" className="bg-command-card text-white">Medicine & Blood Packs</option>
+                <option value="Food" className="bg-command-card text-white">Dry Ration Kits</option>
+                <option value="Water" className="bg-command-card text-white">Drinking Water Containers</option>
+                <option value="Rescue" className="bg-command-card text-white">Amphibious Rescue</option>
+                <option value="Evacuation" className="bg-command-card text-white">High-Water Evacuation</option>
               </select>
             </div>
             <div>
@@ -81,9 +84,9 @@ export const MissionControl: React.FC<MissionControlProps> = ({ missions, facili
                 onChange={(e) => setPriority(e.target.value)}
                 className="w-full bg-command-panel border border-command-border rounded-lg p-2 text-white"
               >
-                <option value="CRITICAL">CRITICAL</option>
-                <option value="HIGH">HIGH</option>
-                <option value="NORMAL">NORMAL</option>
+                <option value="CRITICAL" className="bg-command-card text-white">CRITICAL</option>
+                <option value="HIGH" className="bg-command-card text-white">HIGH</option>
+                <option value="NORMAL" className="bg-command-card text-white">NORMAL</option>
               </select>
             </div>
           </div>
@@ -96,8 +99,8 @@ export const MissionControl: React.FC<MissionControlProps> = ({ missions, facili
                 onChange={(e) => setOriginId(e.target.value)}
                 className="w-full bg-command-panel border border-command-border rounded-lg p-2 text-white"
               >
-                {facilities.map((fac) => (
-                  <option key={fac.id} value={fac.id}>{fac.name}</option>
+                {facList.map((fac) => (
+                  <option key={fac.id} value={fac.id} className="bg-command-card text-white">{fac.name}</option>
                 ))}
               </select>
             </div>
@@ -108,8 +111,8 @@ export const MissionControl: React.FC<MissionControlProps> = ({ missions, facili
                 onChange={(e) => setDestId(e.target.value)}
                 className="w-full bg-command-panel border border-command-border rounded-lg p-2 text-white"
               >
-                {facilities.map((fac) => (
-                  <option key={fac.id} value={fac.id}>{fac.name}</option>
+                {facList.map((fac) => (
+                  <option key={fac.id} value={fac.id} className="bg-command-card text-white">{fac.name}</option>
                 ))}
               </select>
             </div>

@@ -72,3 +72,46 @@ export const DEFAULT_FACILITIES: Facility[] = [
     icon: "cross"
   }
 ];
+
+export const DEFAULT_INCIDENTS = [
+  {
+    id: "INC-021",
+    type: "FLOOD",
+    latitude: 13.0980,
+    longitude: 80.2650,
+    severity: "HIGH",
+    description: "Vyasarpadi subway completely inundated with 1.95m standing water. Traffic stalled.",
+    source: "Crowdsourced Field Report",
+    confidence: 0.94,
+    status: "Verified",
+    timestamp: "2 min ago",
+    impacted_edge_ids: ["E_02"]
+  },
+  {
+    id: "INC-018",
+    type: "BRIDGE_DAMAGE",
+    latitude: 13.0012,
+    longitude: 80.2565,
+    severity: "CRITICAL",
+    description: "Adyar LB Road bridge approach road eroded by strong water currents.",
+    source: "Sensor (CHN-108)",
+    confidence: 0.98,
+    status: "Verified",
+    timestamp: "12 min ago",
+    impacted_edge_ids: ["E_17"]
+  },
+  {
+    id: "INC-015",
+    type: "LANDSLIDE",
+    latitude: 12.9815,
+    longitude: 80.2180,
+    severity: "HIGH",
+    description: "Debris and mud accumulation blocking Velachery bypass low section.",
+    source: "Official Patrol",
+    confidence: 0.91,
+    status: "Verified",
+    timestamp: "25 min ago",
+    impacted_edge_ids: ["E_20"]
+  }
+];
+

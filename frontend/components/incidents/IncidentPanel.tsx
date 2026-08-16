@@ -67,31 +67,39 @@ export const IncidentPanel: React.FC<IncidentPanelProps> = ({ incidents, onOpenM
             </tr>
           </thead>
           <tbody className="divide-y divide-command-border/50">
-            {filteredIncidents.map((inc) => (
-              <tr key={inc.id} className="hover:bg-command-panel/50 transition">
-                <td className="py-2.5 px-3 font-bold text-aegis-cyan">{inc.id}</td>
-                <td className="py-2.5 px-3 text-white font-semibold">{inc.type}</td>
-                <td className="py-2.5 px-3">
-                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                    inc.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400 border border-red-500/40' :
-                    inc.severity === 'HIGH' ? 'bg-aegis-amber/20 text-aegis-amber border border-aegis-amber/40' :
-                    'bg-blue-500/20 text-blue-400'
-                  }`}>
-                    {inc.severity}
-                  </span>
+            {filteredIncidents.length > 0 ? (
+              filteredIncidents.map((inc) => (
+                <tr key={inc.id} className="hover:bg-command-panel/50 transition">
+                  <td className="py-2.5 px-3 font-bold text-aegis-cyan">{inc.id}</td>
+                  <td className="py-2.5 px-3 text-white font-semibold">{inc.type}</td>
+                  <td className="py-2.5 px-3">
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                      inc.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400 border border-red-500/40' :
+                      inc.severity === 'HIGH' ? 'bg-aegis-amber/20 text-aegis-amber border border-aegis-amber/40' :
+                      'bg-blue-500/20 text-blue-400'
+                    }`}>
+                      {inc.severity}
+                    </span>
+                  </td>
+                  <td className="py-2.5 px-3 font-sans text-gray-300 max-w-xs truncate">{inc.description}</td>
+                  <td className="py-2.5 px-3 text-command-muted">{inc.source}</td>
+                  <td className="py-2.5 px-3 text-aegis-green font-bold">{(inc.confidence * 100).toFixed(0)}%</td>
+                  <td className="py-2.5 px-3">
+                    <span className="flex items-center space-x-1 text-emerald-400">
+                      <ShieldCheck className="w-3.5 h-3.5" />
+                      <span>{inc.status}</span>
+                    </span>
+                  </td>
+                  <td className="py-2.5 px-3 text-command-muted">{inc.timestamp}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={8} className="py-6 text-center text-command-muted font-mono text-xs">
+                  No incident field reports found matching this category filter.
                 </td>
-                <td className="py-2.5 px-3 font-sans text-gray-300 max-w-xs truncate">{inc.description}</td>
-                <td className="py-2.5 px-3 text-command-muted">{inc.source}</td>
-                <td className="py-2.5 px-3 text-aegis-green font-bold">{(inc.confidence * 100).toFixed(0)}%</td>
-                <td className="py-2.5 px-3">
-                  <span className="flex items-center space-x-1 text-emerald-400">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    <span>{inc.status}</span>
-                  </span>
-                </td>
-                <td className="py-2.5 px-3 text-command-muted">{inc.timestamp}</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

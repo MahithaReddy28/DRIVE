@@ -43,6 +43,8 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const [isTyping, setIsTyping] = useState(false);
+
   // Sync internal input string when external valueId changes
   useEffect(() => {
     const found = facList.find(f => f.id === valueId);
@@ -56,6 +58,7 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
     const handleClickOutside = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setIsOpen(false);
+        setIsTyping(false);
         // Reset query text to current selected facility name if blurred without picking
         const found = facList.find(f => f.id === valueId);
         if (found) setQuery(found.name);
@@ -65,15 +68,18 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [valueId, facList]);
 
-  // Filter facilities by user input string
-  const filteredFacilities = facList.filter(f =>
-    f.name.toLowerCase().includes(query.toLowerCase()) ||
-    f.type.toLowerCase().includes(query.toLowerCase())
-  );
+  // Filter facilities by user input string: show all when opened without active typing
+  const filteredFacilities = isTyping
+    ? facList.filter(f =>
+        f.name.toLowerCase().includes(query.toLowerCase()) ||
+        f.type.toLowerCase().includes(query.toLowerCase())
+      )
+    : facList;
 
   const handleSelect = (fac: Facility) => {
     setQuery(fac.name);
     onChange(fac.id);
+    setIsTyping(false);
     setIsOpen(false);
   };
 
@@ -91,11 +97,16 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
         <input
           type="text"
           value={query}
-          onFocus={() => setIsOpen(true)}
+          onFocus={() => {
+            setIsOpen(true);
+          }}
+          onClick={() => {
+            setIsOpen(true);
+          }}
           onChange={(e) => {
             setQuery(e.target.value);
+            setIsTyping(true);
             setIsOpen(true);
-            // If user input matches a facility exactly or partially, update state
             const matched = facList.find(f => f.name.toLowerCase().includes(e.target.value.toLowerCase()));
             if (matched) {
               onChange(matched.id);
@@ -106,7 +117,15 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
         />
         <button
           type="button"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => {
+            if (isOpen) {
+              setIsOpen(false);
+              setIsTyping(false);
+            } else {
+              setIsOpen(true);
+              setIsTyping(false);
+            }
+          }}
           className="absolute right-2.5 top-2.5 text-command-muted hover:text-white"
         >
           <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180 text-aegis-cyan' : ''}`} />
@@ -146,7 +165,7 @@ const SearchableSelect: React.FC<SearchableSelectProps> = ({
             })
           ) : (
             <div className="p-3 text-center text-command-muted font-mono text-xs">
-              No matching facilities. Using custom search query.
+              No matching facilities found.
             </div>
           )}
         </div>
