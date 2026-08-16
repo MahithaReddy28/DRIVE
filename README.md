@@ -1,11 +1,3 @@
-# D.R.I.V.E. — Disaster Rerouting & Intelligent Vehicle Engine
-
-[![Next.js](https://img.shields.io/badge/Next.js-14.2-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 
 > **Topological Disaster Supply Rerouting Engine for Extreme Monsoon Inundation & Infrastructure Failure**
 
@@ -129,9 +121,3 @@ python main.py
 The backend server will run at **`http://localhost:8000`** with interactive API docs available at **`http://localhost:8000/docs`**.
 
 *(Note: The frontend includes built-in fast client-side fallback engines so all interactive features, routing algorithms, simulations, and incident reporting work seamlessly even without running the Python backend).*
-
----
-
-## 🛡️ License
-
-This project is open-source and available under the [MIT License](LICENSE).

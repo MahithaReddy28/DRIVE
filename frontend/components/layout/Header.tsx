@@ -22,9 +22,6 @@ export const Header: React.FC<HeaderProps> = ({ floodLevel, lastUpdate, onOpenBr
         <div>
           <div className="flex items-center space-x-2">
             <span className="font-extrabold text-xl tracking-wider text-white">D.R.I.V.E.</span>
-            <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-aegis-cyan/10 text-aegis-cyan border border-aegis-cyan/30">
-              COMMAND v1.0
-            </span>
           </div>
           <p className="text-xs text-command-muted hidden sm:block">Disaster Rerouting & Intelligent Vehicle Engine</p>
         </div>
