@@ -11,7 +11,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ floodLevel, lastUpdate, onOpenBriefing }) => {
   return (
-    <header className="h-16 bg-command-card border-b border-command-border px-6 flex items-center justify-between sticky top-0 z-50">
+    <header className="h-16 bg-command-card/95 backdrop-blur-md border-b border-command-border px-4 sm:px-6 flex items-center justify-between shrink-0 z-50">
       {/* Brand & Logo */}
       <div className="flex items-center space-x-4">
         <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-aegis-cyan via-blue-600 to-indigo-600 p-0.5 shadow-cyan">
@@ -21,12 +21,12 @@ export const Header: React.FC<HeaderProps> = ({ floodLevel, lastUpdate, onOpenBr
         </div>
         <div>
           <div className="flex items-center space-x-2">
-            <span className="font-extrabold text-xl tracking-wider text-white">DRIVE</span>
+            <span className="font-extrabold text-xl tracking-wider text-white">D.R.I.V.E.</span>
             <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-aegis-cyan/10 text-aegis-cyan border border-aegis-cyan/30">
-              PROTOTYPE v1.0
+              COMMAND v1.0
             </span>
           </div>
-          <p className="text-xs text-command-muted hidden sm:block">Topological Disaster Supply Rerouting Engine</p>
+          <p className="text-xs text-command-muted hidden sm:block">Disaster Rerouting & Intelligent Vehicle Engine</p>
         </div>
       </div>
 

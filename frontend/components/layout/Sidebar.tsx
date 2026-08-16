@@ -34,11 +34,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   return (
-    <aside className="w-64 bg-command-card border-r border-command-border flex flex-col justify-between h-[calc(100vh-4rem)] sticky top-16 select-none shrink-0">
+    <aside className="w-64 bg-command-card border-r border-command-border flex flex-col justify-between h-full select-none shrink-0 overflow-hidden">
       <div className="p-3 space-y-1 overflow-y-auto">
-        <div className="px-3 py-2 text-[11px] font-mono font-bold tracking-widest text-command-muted uppercase">
-          Navigation Menu
-        </div>
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -69,24 +66,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </button>
           );
         })}
-      </div>
-
-      {/* Footer System Status Banner */}
-      <div className="p-4 border-t border-command-border bg-command-bg/50">
-        <div className="text-[11px] font-mono text-command-muted space-y-1">
-          <div className="flex justify-between">
-            <span>GRAPH ENGINE:</span>
-            <span className="text-aegis-green font-bold">ONLINE</span>
-          </div>
-          <div className="flex justify-between">
-            <span>ROUTING ALGORITHM:</span>
-            <span className="text-aegis-cyan font-bold">A* / Dijkstra</span>
-          </div>
-          <div className="flex justify-between">
-            <span>LATENCY:</span>
-            <span className="text-white font-bold">&lt; 20 ms</span>
-          </div>
-        </div>
       </div>
     </aside>
   );

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'DRIVE — Topological Disaster Supply Rerouting Engine',
+  title: 'D.R.I.V.E. — Disaster Rerouting & Intelligent Vehicle Engine',
   description: 'Live disaster-aware emergency supply graph rerouting engine when roads fail.',
 };
 

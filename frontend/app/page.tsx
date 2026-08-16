@@ -179,7 +179,7 @@ export default function Home() {
   const blockedCount = roads.filter(r => r.is_blocked || r.elevation < (floodLevel + safetyMargin)).length;
 
   return (
-    <div className="min-h-screen bg-command-bg text-command-text flex flex-col font-sans select-none">
+    <div className="h-screen w-screen bg-command-bg text-command-text flex flex-col font-sans select-none overflow-hidden">
       {/* Top Header */}
       <Header
         floodLevel={floodLevel}
@@ -187,8 +187,25 @@ export default function Home() {
         onOpenBriefing={() => setIsBriefingModalOpen(true)}
       />
 
+      {/* Critical Flood Alert Banner */}
+      {floodLevel >= 2.0 && (
+        <div className="bg-gradient-to-r from-red-600 via-aegis-red to-red-700 text-white px-4 py-1.5 font-mono text-xs flex items-center justify-between animate-fadeIn shadow-md border-b border-red-500/50 shrink-0">
+          <div className="flex items-center space-x-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-white animate-ping" />
+            <strong className="tracking-wide">CRITICAL MONSOON FLOOD STAGE ({floodLevel.toFixed(1)}m) ACTIVE</strong>
+            <span>— {blockedCount} critical road corridors submerged. DRIVE topological rerouting active.</span>
+          </div>
+          <button
+            onClick={() => handleFloodLevelChange(1.8)}
+            className="text-[10px] bg-white/20 hover:bg-white/30 px-2 py-0.5 rounded font-bold uppercase transition"
+          >
+            Reset to 1.8m
+          </button>
+        </div>
+      )}
+
       {/* Main Layout Container */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden min-h-0">
         {/* Left Sidebar */}
         <Sidebar
           activeTab={activeTab}
@@ -223,6 +240,14 @@ export default function Home() {
                     normalRoute={routeComparison?.normal_route}
                     floodLevel={floodLevel}
                     onSelectFacility={(fac) => setDestId(fac.id)}
+                    onSelectOrigin={(fac) => {
+                      setOriginId(fac.id);
+                      handleCalculateRoute(fac.id, destId, floodLevel);
+                    }}
+                    onSelectDestination={(fac) => {
+                      setDestId(fac.id);
+                      handleCalculateRoute(originId, fac.id, floodLevel);
+                    }}
                   />
                 </div>
 
@@ -295,6 +320,14 @@ export default function Home() {
                   normalRoute={routeComparison?.normal_route}
                   floodLevel={floodLevel}
                   onSelectFacility={(fac) => setDestId(fac.id)}
+                  onSelectOrigin={(fac) => {
+                    setOriginId(fac.id);
+                    handleCalculateRoute(fac.id, destId, floodLevel);
+                  }}
+                  onSelectDestination={(fac) => {
+                    setDestId(fac.id);
+                    handleCalculateRoute(originId, fac.id, floodLevel);
+                  }}
                 />
               </div>
 

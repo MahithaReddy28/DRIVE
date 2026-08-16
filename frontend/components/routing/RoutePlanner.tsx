@@ -299,6 +299,27 @@ export const RoutePlanner: React.FC<RoutePlannerProps> = ({
           <Navigation className="w-4 h-4" />
           <span>{isCalculating ? 'Computing A* Topology...' : 'Calculate Safe Supply Route'}</span>
         </button>
+
+        {/* Dispatch Copy Action & Safety Badge */}
+        <div className="flex items-center justify-between pt-1 border-t border-command-border/50 text-[11px] font-mono">
+          <div className="flex items-center space-x-1 text-emerald-400 font-bold">
+            <Shield className="w-3.5 h-3.5" />
+            <span>100% FLOOD-FREE CORRIDOR</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              const origFac = facilities.find(f => f.id === selectedOrigin)?.name || selectedOrigin;
+              const destFac = facilities.find(f => f.id === selectedDestination)?.name || selectedDestination;
+              const text = `DRIVE EMERGENCY DISPATCH ORDER\nOrigin: ${origFac}\nDestination: ${destFac}\nRouting Mode: ${routingMode.toUpperCase()}\nStatus: AEGIS SAFE ROUTE ACTIVE`;
+              navigator.clipboard.writeText(text);
+              alert('Emergency Dispatch Order copied to clipboard!');
+            }}
+            className="text-aegis-cyan hover:underline text-[10px] font-bold uppercase"
+          >
+            Copy Dispatch Order
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -19,6 +19,8 @@ interface MapViewProps {
   normalRoute?: RouteResponse | null;
   floodLevel: number;
   onSelectFacility?: (fac: Facility) => void;
+  onSelectOrigin?: (fac: Facility) => void;
+  onSelectDestination?: (fac: Facility) => void;
   showNormalRoute?: boolean;
 }
 
@@ -30,6 +32,8 @@ export const MapView: React.FC<MapViewProps> = ({
   normalRoute,
   floodLevel,
   onSelectFacility,
+  onSelectOrigin,
+  onSelectDestination,
   showNormalRoute = true
 }) => {
   const [mounted, setMounted] = useState(false);
@@ -153,11 +157,32 @@ export const MapView: React.FC<MapViewProps> = ({
             }}
           >
             <Popup>
-              <div className="p-1 font-mono text-xs">
-                <strong className="text-white text-sm">{fac.name}</strong>
+              <div className="p-1 font-mono text-xs min-w-[180px]">
+                <strong className="text-white text-sm block">{fac.name}</strong>
                 <div className="text-aegis-cyan text-[11px] font-bold mt-0.5">{fac.type}</div>
-                <div className="mt-1 text-[11px] text-gray-300">Elevation: {fac.elevation}m</div>
+                <div className="mt-1 text-[11px] text-gray-300">Elevation: <strong>{fac.elevation}m</strong></div>
                 <div className="text-[11px] text-gray-300">Capacity: {fac.capacity}</div>
+                
+                <div className="grid grid-cols-2 gap-1 mt-2 pt-1.5 border-t border-gray-700">
+                  {onSelectOrigin && (
+                    <button
+                      type="button"
+                      onClick={() => onSelectOrigin(fac)}
+                      className="px-2 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-[10px] font-bold uppercase transition"
+                    >
+                      Set Origin
+                    </button>
+                  )}
+                  {onSelectDestination && (
+                    <button
+                      type="button"
+                      onClick={() => onSelectDestination(fac)}
+                      className="px-2 py-1 bg-aegis-cyan hover:bg-cyan-500 text-command-bg rounded text-[10px] font-bold uppercase transition"
+                    >
+                      Set Dest
+                    </button>
+                  )}
+                </div>
               </div>
             </Popup>
           </Marker>
